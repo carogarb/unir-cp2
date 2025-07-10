@@ -91,7 +91,7 @@ resource "azurerm_network_interface" "nic" {
 # Create a Network Interface Security Group association
 resource "azurerm_network_interface_security_group_association" "nics" {
   network_interface_id      = azurerm_network_interface.nic.id
-  network_security_group_id = azurerm_network_security_group.nic.id
+  network_security_group_id = azurerm_network_security_group.nsg.id
 }
 
 # Create a Virtual Machine
@@ -99,7 +99,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   name                            = "cgb-unir-cp2-vm"
   location                        = azurerm_resource_group.rg.location
   resource_group_name             = azurerm_resource_group.rg.name
-  network_interface_ids           = [azurerm_network_interface.rg.id]
+  network_interface_ids           = [azurerm_network_interface.nic.id]
   size                            = "Standard_DS1_v2"
   computer_name                   = "cgbvm"
   admin_username                  = "cgb"
