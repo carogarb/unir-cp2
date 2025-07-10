@@ -39,7 +39,7 @@ resource "azurerm_subnet" "subnet" {
   name                 = "cgb-unir-cp2-subnet"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = ["10.0.2.0/24"]
+  address_prefixes     = ["10.0.1.0/24"]
 }
 
 # Create a Public IP
@@ -56,20 +56,22 @@ resource "azurerm_network_security_group" "nsg" {
   name                = "cgb-unir-cp2-nsg"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-
-  security_rule {
-    name                       = "HTTP"
-    priority                   = 1001
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "8080"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-
   tags = azurerm_resource_group.rg.tags
+}
+
+# HTTP Rule (8080)
+resource "azurerm_network_security_rule" "allow_http" {
+  name                        = "Allow-HTTP"
+  priority                    = 1010
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "8080"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.rg.name
+  network_security_group_name = azurerm_network_security_group.nsg.name
 }
 
 # Create a Network Interface
@@ -79,7 +81,7 @@ resource "azurerm_network_interface" "nic" {
   resource_group_name = azurerm_resource_group.rg.name
 
   ip_configuration {
-    name                          = "cgb-unir-cp2-ip-config"
+    name                          = "internal"
     subnet_id                     = azurerm_subnet.subnet.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.ip.id
@@ -114,7 +116,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   os_disk {
-    name                 = "cgb-unir-cp2-os-disk"
     storage_account_type = "Standard_LRS"
     caching              = "ReadWrite"
   }
