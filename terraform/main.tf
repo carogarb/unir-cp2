@@ -153,9 +153,9 @@ output "public_ip" {
 # Use acr module to create the Azure Container registry
 module "azure_container_registry" {
   source         = "./acr"
-  resource_group = azurerm_resource_group.rg.name
-  location       = azurerm_resource_group.rg.location
-  acr_name       = var.azurerm_container_registry_name
-  tags           = var.azurerm_resource_group_tags
+  azurerm_resource_group_name     = azurerm_resource_group.rg.name
+  azurerm_resource_group_location = azurerm_resource_group.rg.location
+  azurerm_container_registry_name = var.azurerm_container_registry_name
+  azurerm_resource_group_tags     = var.azurerm_resource_group_tags
 }
 
