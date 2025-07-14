@@ -21,6 +21,6 @@ variable "azurerm_resource_group_tags" {
 variable "azurerm_container_registry_name" {
   description = "Azure Container Registry name"
   type        = string
-  default     = "acr-cgb-unir-cp2"
+  default     = "cgbuniracr"
 }
 
