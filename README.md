@@ -21,6 +21,12 @@ This folder contains a first attempt of a [Terraform](https://www.terraform.io/)
 * Validate the changes.
 
   ```bash
+  terraform validate
+  ```
+
+* Create the plan.
+
+  ```bash
   terraform plan
   ```
 
@@ -30,9 +36,9 @@ This folder contains a first attempt of a [Terraform](https://www.terraform.io/)
   terraform apply
   ```
 
-* Test first attempt:
+* Obtain the exposed values:
 
-  When the `terraform apply` command completes, it will output the public IP address of the web server. 
+  To get the public IP address of the web server execute terraform output -raw vm_ip. 
 
   We can connect using this public IP to exposed port 8080 where we should get a `Hello, World` response message.
 

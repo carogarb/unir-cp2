@@ -142,7 +142,7 @@ module "azure_container_registry" {
 # Configurate to run automated tasks in the VM start-up
 resource "azurerm_virtual_machine_extension" "vme" {
   name                 = "hostname"
-  virtual_machine_id   = azurerm_linux_virtual_machine.vm.id
+  virtual_machine_id   = module.virtual_machine.vm_id
   publisher            = "Microsoft.Azure.Extensions"
   type                 = "CustomScript"
   type_handler_version = "2.1"
@@ -155,15 +155,3 @@ resource "azurerm_virtual_machine_extension" "vme" {
 
   tags = azurerm_resource_group.rg.tags
 }
-
-# Data source to access the properties of an existing Azure Public IP Address
-data "azurerm_public_ip" "ipdata" {
-  name                = azurerm_public_ip.ip.name
-  resource_group_name = azurerm_linux_virtual_machine.vm.resource_group_name
-}
-
-# Output variable: Public IP address
-output "public_ip" {
-  value = data.azurerm_public_ip.ipdata.ip_address
-}
-
