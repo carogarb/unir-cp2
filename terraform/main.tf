@@ -18,11 +18,9 @@ provider "azurerm" {
 
 # Create a Resource Group if it doesn’t exist
 resource "azurerm_resource_group" "rg" {
-  name     = "cgb-unir-cp2"
-  location = "West Europe"
-  tags = {
-    department = "casopractico2"
-  } 
+  name     = var.azurerm_resource_group_name
+  location = var.azurerm_resource_group_location
+  tags = var.azurerm_resource_group_tags
 }
 
 # Create a Virtual Network
@@ -150,5 +148,14 @@ data "azurerm_public_ip" "ipdata" {
 # Output variable: Public IP address
 output "public_ip" {
   value = data.azurerm_public_ip.ipdata.ip_address
+}
+
+# Use acr module to create the Azure Container registry
+module "azure_container_registry" {
+  source         = "./acr"
+  resource_group = azurerm_resource_group.rg.name
+  location       = azurerm_resource_group.rg.location
+  acr_name       = var.azurerm_container_registry_name
+  tags           = var.azurerm_resource_group_tags
 }
 
