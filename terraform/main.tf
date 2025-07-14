@@ -23,24 +23,24 @@ resource "azurerm_resource_group" "rg" {
   tags = var.azurerm_resource_group_tags
 }
 
-# Create a Virtual Network
+/* # Create a Virtual Network
 resource "azurerm_virtual_network" "vnet" {
   name                = "cgb-unir-cp2-vnet"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   address_space       = ["10.0.0.0/16"]
   tags = azurerm_resource_group.rg.tags
-}
+} */
 
-# Create a Subnet in the Virtual Network
+/* # Create a Subnet in the Virtual Network
 resource "azurerm_subnet" "subnet" {
   name                 = "cgb-unir-cp2-subnet"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = ["10.0.1.0/24"]
-}
+} */
 
-# Create a Public IP
+/* # Create a Public IP
 resource "azurerm_public_ip" "ip" {
   name                = "cgb-unir-cp2-public-ip"
   location            = azurerm_resource_group.rg.location
@@ -48,17 +48,17 @@ resource "azurerm_public_ip" "ip" {
   allocation_method   = "Static"
   sku                 = "Standard"
   tags = azurerm_resource_group.rg.tags
-}
+} */
 
-# Create a Network Security Group and rule
+/* # Create a Network Security Group and rule
 resource "azurerm_network_security_group" "nsg" {
   name                = "cgb-unir-cp2-nsg"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   tags = azurerm_resource_group.rg.tags
-}
+} */
 
-# HTTP Rule (8080)
+/* # HTTP Rule (8080)
 resource "azurerm_network_security_rule" "allow_http" {
   name                        = "Allow-HTTP"
   priority                    = 1010
@@ -71,9 +71,9 @@ resource "azurerm_network_security_rule" "allow_http" {
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.rg.name
   network_security_group_name = azurerm_network_security_group.nsg.name
-}
+}*/
 
-# Create a Network Interface
+/* # Create a Network Interface
 resource "azurerm_network_interface" "nic" {
   name                = "cgb-unir-cp2-nic"
   location            = azurerm_resource_group.rg.location
@@ -87,15 +87,15 @@ resource "azurerm_network_interface" "nic" {
   }
 
   tags = azurerm_resource_group.rg.tags
-}
+}*/
 
-# Create a Network Interface Security Group association
+/* # Create a Network Interface Security Group association
 resource "azurerm_network_interface_security_group_association" "nics" {
   network_interface_id      = azurerm_network_interface.nic.id
   network_security_group_id = azurerm_network_security_group.nsg.id
-}
+} */
 
-# Create a Virtual Machine
+/* # Create a Virtual Machine
 resource "azurerm_linux_virtual_machine" "vm" {
   name                            = "cgb-unir-cp2-vm"
   location                        = azurerm_resource_group.rg.location
@@ -120,6 +120,23 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   tags = azurerm_resource_group.rg.tags
+} */
+
+# Use vm module to create and configure the virtual  machine
+module "virtual_machine" {
+  source = "./vm"  
+  azurerm_resource_group_name     = azurerm_resource_group.rg.name
+  azurerm_resource_group_location = azurerm_resource_group.rg.location
+  azurerm_resource_group_tags     = var.azurerm_resource_group_tags
+}
+
+# Use acr module to create the Azure Container registry
+module "azure_container_registry" {
+  source         = "./acr"
+  azurerm_resource_group_name     = azurerm_resource_group.rg.name
+  azurerm_resource_group_location = azurerm_resource_group.rg.location
+  azurerm_resource_group_tags     = var.azurerm_resource_group_tags
+  azurerm_container_registry_name = var.azurerm_container_registry_name
 }
 
 # Configurate to run automated tasks in the VM start-up
@@ -148,14 +165,5 @@ data "azurerm_public_ip" "ipdata" {
 # Output variable: Public IP address
 output "public_ip" {
   value = data.azurerm_public_ip.ipdata.ip_address
-}
-
-# Use acr module to create the Azure Container registry
-module "azure_container_registry" {
-  source         = "./acr"
-  azurerm_resource_group_name     = azurerm_resource_group.rg.name
-  azurerm_resource_group_location = azurerm_resource_group.rg.location
-  azurerm_container_registry_name = var.azurerm_container_registry_name
-  azurerm_resource_group_tags     = var.azurerm_resource_group_tags
 }
 
