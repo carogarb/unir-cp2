@@ -33,7 +33,22 @@ resource "azurerm_network_security_group" "nsg" {
   tags                = var.azurerm_resource_group_tags
 }
 
-# HTTP Rule (8080)
+# SSH Rule (22)
+resource "azurerm_network_security_rule" "allow_ssh" {
+  name                        = "Allow-SSH"
+  priority                    = 1000
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "22"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = var.azurerm_resource_group_name
+  network_security_group_name = azurerm_network_security_group.nsg.name
+}
+
+# HTTP Rule (80)
 resource "azurerm_network_security_rule" "allow_http" {
   name                        = "Allow-HTTP"
   priority                    = 1010
@@ -41,7 +56,7 @@ resource "azurerm_network_security_rule" "allow_http" {
   access                      = "Allow"
   protocol                    = "Tcp"
   source_port_range           = "*"
-  destination_port_range      = "8080"
+  destination_port_range      = "80"
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
   resource_group_name         = var.azurerm_resource_group_name

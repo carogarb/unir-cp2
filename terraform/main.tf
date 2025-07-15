@@ -23,105 +23,6 @@ resource "azurerm_resource_group" "rg" {
   tags = var.azurerm_resource_group_tags
 }
 
-/* # Create a Virtual Network
-resource "azurerm_virtual_network" "vnet" {
-  name                = "cgb-unir-cp2-vnet"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  address_space       = ["10.0.0.0/16"]
-  tags = azurerm_resource_group.rg.tags
-} */
-
-/* # Create a Subnet in the Virtual Network
-resource "azurerm_subnet" "subnet" {
-  name                 = "cgb-unir-cp2-subnet"
-  resource_group_name  = azurerm_resource_group.rg.name
-  virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = ["10.0.1.0/24"]
-} */
-
-/* # Create a Public IP
-resource "azurerm_public_ip" "ip" {
-  name                = "cgb-unir-cp2-public-ip"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  allocation_method   = "Static"
-  sku                 = "Standard"
-  tags = azurerm_resource_group.rg.tags
-} */
-
-/* # Create a Network Security Group and rule
-resource "azurerm_network_security_group" "nsg" {
-  name                = "cgb-unir-cp2-nsg"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  tags = azurerm_resource_group.rg.tags
-} */
-
-/* # HTTP Rule (8080)
-resource "azurerm_network_security_rule" "allow_http" {
-  name                        = "Allow-HTTP"
-  priority                    = 1010
-  direction                   = "Inbound"
-  access                      = "Allow"
-  protocol                    = "Tcp"
-  source_port_range           = "*"
-  destination_port_range      = "8080"
-  source_address_prefix       = "*"
-  destination_address_prefix  = "*"
-  resource_group_name         = azurerm_resource_group.rg.name
-  network_security_group_name = azurerm_network_security_group.nsg.name
-}*/
-
-/* # Create a Network Interface
-resource "azurerm_network_interface" "nic" {
-  name                = "cgb-unir-cp2-nic"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-
-  ip_configuration {
-    name                          = "internal"
-    subnet_id                     = azurerm_subnet.subnet.id
-    private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.ip.id
-  }
-
-  tags = azurerm_resource_group.rg.tags
-}*/
-
-/* # Create a Network Interface Security Group association
-resource "azurerm_network_interface_security_group_association" "nics" {
-  network_interface_id      = azurerm_network_interface.nic.id
-  network_security_group_id = azurerm_network_security_group.nsg.id
-} */
-
-/* # Create a Virtual Machine
-resource "azurerm_linux_virtual_machine" "vm" {
-  name                            = "cgb-unir-cp2-vm"
-  location                        = azurerm_resource_group.rg.location
-  resource_group_name             = azurerm_resource_group.rg.name
-  network_interface_ids           = [azurerm_network_interface.nic.id]
-  size                            = "Standard_B1ls"
-  computer_name                   = "cgbvm"
-  admin_username                  = "cgb"
-  admin_password                  = "Password1234!"
-  disable_password_authentication = false
-
-  source_image_reference {
-    publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "18.04-LTS"
-    version   = "latest"
-  }
-
-  os_disk {
-    storage_account_type = "Standard_LRS"
-    caching              = "ReadWrite"
-  }
-
-  tags = azurerm_resource_group.rg.tags
-} */
-
 # Use vm module to create and configure the virtual  machine
 module "virtual_machine" {
   source = "./vm"  
@@ -139,6 +40,8 @@ module "azure_container_registry" {
   azurerm_container_registry_name = var.azurerm_container_registry_name
 }
 
+/* 
+# Only for testing purpose!!
 # Configurate to run automated tasks in the VM start-up
 resource "azurerm_virtual_machine_extension" "vme" {
   name                 = "hostname"
@@ -155,3 +58,4 @@ resource "azurerm_virtual_machine_extension" "vme" {
 
   tags = azurerm_resource_group.rg.tags
 }
+ */
