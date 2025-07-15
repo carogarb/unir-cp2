@@ -39,11 +39,7 @@
     - name: Login into ACR
       shell: |
         podman login cgbuniracr.azurecr.io -u cgbuniracr -p {{ lookup('env', 'ACR_PWD') }}
-
-    - name: Build image from Containerfile
-      shell: |
-        podman build -t ngnix-image-cgb ../podman
     
     - name: Run Podman container
       shell: |
-        podman run -d -p 80:80 --name ngnix-container-cgb cgbuniracr.azurecr.io/ngnix-image-cgb:latest
+        podman run -d -p 80:80 --name ngnix-container-cgb cgbuniracr.azurecr.io/nginx-cgb:latest
