@@ -1,17 +1,19 @@
 ---
 - name: Deploy Podman Container from ACR
   hosts: all
-  become: yes
+  become: true
   tasks:
     - name: Update package list
       apt:
         update_cache: yes
+        cache_valid_time: 3600  # Optional: Cache validity in seconds (e.g., 1 hour)
+      become: true
 
     - name: Install Podman
       apt:
         name: podman
         state: present
-        update_cache: yes
+      become: true
 
     - name: Verify Podman version
       command: podman --version
