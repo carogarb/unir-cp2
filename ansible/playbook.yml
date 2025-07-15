@@ -1,18 +1,30 @@
 ---
 - name: Deploy Podman Container from ACR
-  hosts: azure-vm
-  become: true
+  hosts: all
+  become: yes
   tasks:
+    - name: Update package list
+      apt:
+        update_cache: yes
+
     - name: Install Podman
       apt:
         name: podman
         state: present
         update_cache: yes
 
+    - name: Verify Podman version
+      command: podman --version
+      register: podman_version
+
+    - name: Show podman version
+      debug:
+        msg: "Podman installed version is {{ podman_version.stdout }}"      
+
     - name: Login into ACR
       shell: |
         podman login cgbuniracr.azurecr.io -u cgbuniracr -p {{ lookup('env', 'ACR_PWD') }}
-        
+
     - name: Build image from Containerfile
       shell: |
         podman build -t ngnix-image-cgb ../podman
