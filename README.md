@@ -9,7 +9,7 @@ This folder contains a first attempt of a [Terraform](https://www.terraform.io/)
   * Authenticate using the Azure CLI.
 
     ```bash
-    az login  
+    az login --use-device-code 
     ```
  
 * Initialize Terraform configuration.

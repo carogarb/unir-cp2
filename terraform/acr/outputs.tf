@@ -11,7 +11,7 @@ output "acr_username" {
 output "acr_password" {
   description = "ACR Admin Password"
   value       = azurerm_container_registry.acr.admin_password
-  sensitive   = true
+  //sensitive   = true
 }
 
 output "acr_id" {
