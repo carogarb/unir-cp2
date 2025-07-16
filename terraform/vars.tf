@@ -14,7 +14,7 @@ variable "azurerm_resource_group_tags" {
   description = "Azure Resource Group tags (to be applied to all the resources)"
   type        = map(string)
   default     = {
-    department = "casopractico2"
+    environment = "casopractico2"
   }
 }
 

@@ -63,6 +63,21 @@ resource "azurerm_network_security_rule" "allow_http" {
   network_security_group_name = azurerm_network_security_group.nsg.name
 }
 
+# HTTPS Rule (80, 8080)
+resource "azurerm_network_security_rule" "allow_https" {
+  name                        = "Allow-HTTPS"
+  priority                    = 1020
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = ["80", "8080"]
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = var.azurerm_resource_group_name
+  network_security_group_name = azurerm_network_security_group.nsg.name
+}
+
 # Create a Network Interface
 resource "azurerm_network_interface" "nic" {
   name                = "cgb-unir-cp2-nic"
