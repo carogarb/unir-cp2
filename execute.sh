@@ -3,15 +3,11 @@
 # Stop execution on any error
 set -e
 
-function usage() {
+# Check if the right number of arguments were passed
+if [[ "$#" -ne 4 ]]; then
     echo "ERROR: Missing or invalid arguments!"
     echo "Usage example: ./az-cli-login.sh SUBSCRIPTION_ID SERVICE_PRINCIPAL_ID SERVICE_PRINCIPAL_SECRET TENANT_ID"
     exit 1
-}
-
-# Check if the right number of arguments were passed
-if [[ "$#" -ne 4 ]]; then
-    usage
 fi
 
 SUBSCRIPTION_ID=$1
