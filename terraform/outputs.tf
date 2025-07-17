@@ -5,7 +5,7 @@ output "vm_ip" {
 
 # Output: ACR Name (terraform output -raw acr_name)
 output "acr_name" {
-  value = module.azure_container_registry.name
+  value = module.azure_container_registry.acr_name
 }
 
 # Output: ACR Username (terraform output -raw acr_username)
