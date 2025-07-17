@@ -53,10 +53,23 @@ This folder contains a first attempt of a [Terraform](https://www.terraform.io/)
    terraform output -raw acr_password
   ```
 
+* Set environment variables neeeded for Ansible:
+
+  ```bash
+    export ACR_PWD=....
+  ```
+
+
+* Add remote host to list of known host, so we can connect from local:
+
+  ```bash
+    ssh -i /home/cgarcia/.ssh/id_ed25519 cgb@172.201.212.108
+  ```
+
 * Manage configuration and deploy applications using Ansible:
 
   ```bash
-   ansible-playbook -i hosts.yml playbook.yml --vvv
+   ansible-playbook -i hosts.yml playbook.yml -vvv
   ```
 
 * Once it's done, we can access nginx using PUBLIC_IP:80 and see the index.html page with the message: 
