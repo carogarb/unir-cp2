@@ -40,6 +40,7 @@ This folder contains a first attempt of a [Terraform](https://www.terraform.io/)
 
   ```bash
   terraform output -json > terraform_outputs.json
+   chmod 777 terraform_outputs.json
   ```
 
 * Get the VM machine query to use it in hosts.yml file (Ansible):
@@ -51,7 +52,7 @@ This folder contains a first attempt of a [Terraform](https://www.terraform.io/)
 * Once the file hosts for Ansible is correct, manage configuration and deploy applications using Ansible:
 
   ```bash
-   ansible-playbook -i hosts.yml playbook.yml --vvv
+   ansible-playbook -i hosts.yml playbook.yml -vvv
   ```
 
 * When ready, we can access nginx using PUBLIC_IP:80 and see the index.html page with the message: 

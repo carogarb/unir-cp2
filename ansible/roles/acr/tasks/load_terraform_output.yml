@@ -1,0 +1,5 @@
+---
+- name: Load terraform variables
+  set_fact:
+        terraform_output: "{{ lookup('file', '/home/cgarcia/unir-cp2/terraform/terraform_output.json') | from_json }}"
+  became: yes      

@@ -1,4 +1,7 @@
 ---
+- name: Load Terraform values
+  include_tasks: load_terraform_output.yml
+
 - name: Install Podman
   include_tasks: install_podman.yml
 
