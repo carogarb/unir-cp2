@@ -39,7 +39,22 @@
     - name: Login into ACR
       shell: |
         podman login cgbuniracr.azurecr.io -u cgbuniracr -p {{ lookup('env', 'ACR_PWD') }}
+
+    - name: Pull image from Docker Hub
+      command: >
+        podman pull carogarb/nginx-hello-world:latest
+      become: yes
+
+    - name: Tag image for ACR
+      command: >
+        podman tag carogarb/nginx-hello-world:latest cgbuniracr.azurecr.io/nginx-hello-world:latest
+      become: yes
+
+    - name: Push image to ACR
+      command: >
+        podman push cgbuniracr.azurecr.io/nginx-hello-world:latest
+      become: yes     
     
     - name: Run Podman container
       shell: |
-        podman run -d -p 80:80 --name ngnix-container-cgb cgbuniracr.azurecr.io/nginx-cgb:latest
+        podman run -d -p 80:80 --name ngnix-container-cgb cgbuniracr.azurecr.io/nginx-hello-world:latest
