@@ -36,30 +36,25 @@ This folder contains a first attempt of a [Terraform](https://www.terraform.io/)
   terraform apply
   ```
 
-* Obtain the exposed values:
-
-  To get the public IP address of the web server execute:
+* Save outputs variables to a temp file, to use them with Ansible:
 
   ```bash
-   terraform output -raw vm_ip
+  terraform output -json > terraform_outputs.json
   ```
 
-  Use this IP to configure the host in ansible hosts.yml file.
-
-  We also need the ACR username and password to connect to the ACR successfully:
+* Get the VM machine query to use it in hosts.yml file (Ansible):
 
   ```bash
-   terraform output -raw acr_username
-   terraform output -raw acr_password
+  terraform output -raw vm_ip
   ```
 
-* Manage configuration and deploy applications using Ansible:
+* Once the file hosts for Ansible is correct, manage configuration and deploy applications using Ansible:
 
   ```bash
    ansible-playbook -i hosts.yml playbook.yml --vvv
   ```
 
-* Once it's done, we can access nginx using PUBLIC_IP:80 and see the index.html page with the message: 
+* When ready, we can access nginx using PUBLIC_IP:80 and see the index.html page with the message: 
   Hello World - Nginx - Podman Demo
 
 

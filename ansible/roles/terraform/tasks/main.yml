@@ -1,0 +1,11 @@
+---
+- name: Load terraform output
+  include_vars: 
+    dir: "{{ terraform_dir }}"
+    file: "{{ terraform_output_file }}"
+    name: "{{ terraform_output_var }}"  
+
+# Only for testing purpose
+- name: Print a variable from terraform output
+  debug:
+    msg: "VM Public IP is {{ terraform_output_var.vm_ip }}"     

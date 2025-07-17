@@ -1,0 +1,12 @@
+---
+- name: Install Podman
+  include_tasks: install_podman.yml
+
+- name: Login into ACR
+  include_tasks: login_acr.yml
+
+- name: Push image to ACR
+  include_tasks: push_acr.yml  
+
+- name: Run container from image
+  include_tasks: start_app.yml  

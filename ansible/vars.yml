@@ -1,0 +1,3 @@
+---
+# Variable to store Terraform outputs
+terraform_output_var: "tf_outputs"

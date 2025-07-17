@@ -1,0 +1,3 @@
+FROM docker.io/nginx:latest as base
+EXPOSE 80
+COPY index.html /usr/share/nginx/html/index.html
