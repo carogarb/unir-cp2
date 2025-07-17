@@ -52,7 +52,7 @@ This folder contains a first attempt of a [Terraform](https://www.terraform.io/)
    terraform output -raw acr_username
    export ACR_USERNAME=
    terraform output -raw acr_password
-   export ACT_PWD=
+   export ACR_PASSWORD=
   ```
 
 

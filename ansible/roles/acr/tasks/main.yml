@@ -6,12 +6,12 @@
 
 - name: Pull image from Docker Hub
   command: >
-    podman pull carogarb/nginx-hello-world:latest
+    podman pull docker.io/carogarb/nginx-hello-world:latest
   become: yes
 
 - name: Tag image for ACR
   command: >
-    podman tag carogarb/nginx-hello-world:latest {{ acr_name }}.azurecr.io/{{ image_hello_world_name }}:{{ image_hello_world_tag }}
+    podman tag docker.io/carogarb/nginx-hello-world:latest {{ acr_name }}.azurecr.io/{{ image_hello_world_name }}:{{ image_hello_world_tag }}
   become: yes
 
 - name: Push image to ACR
