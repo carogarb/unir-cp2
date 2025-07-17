@@ -1,5 +1,5 @@
 ---
 # Terraform working directory
-terraform_dir: "~/unir-cp2/terraform"
+terraform_dir: "/home/cgarcia/unir-cp2/terraform"
 # Terraform output file
 terraform_output_file: "terraform_outputs.json"
