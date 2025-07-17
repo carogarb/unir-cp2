@@ -1,0 +1,5 @@
+---
+# Name of the image in ACR
+image_hello_world_name: "nginx-hello-world"
+# Tag of the image in ACR
+image_hello_world_tag: "latest"

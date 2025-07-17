@@ -1,0 +1,33 @@
+---
+- name: Update package list
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600  # Optional: Cache validity in seconds (e.g., 1 hour)
+
+- name: Install dependencies
+  apt:
+    name:
+      - software-properties-common
+    state: present
+
+- name: Add Podman repository
+  apt_repository:
+    repo: ppa:projectatomic/ppa
+    state: present
+
+- name: Update package list after adding repo
+  apt:
+    update_cache: yes
+
+- name: Install Podman
+  apt:
+    name: podman
+    state: present
+
+- name: Verify Podman version
+  command: podman --version
+  register: podman_version
+
+- name: Show podman version
+  debug:
+    msg: "Podman installed version is {{ podman_version.stdout }}"      

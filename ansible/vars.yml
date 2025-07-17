@@ -1,0 +1,4 @@
+---
+acr_name: "cgbuniracr"  
+acr_username: "{{ lookup('env', 'ACR_USERNAME') }}"  
+acr_password: "{{ lookup('env', 'ACR_PASSWORD') }}"  

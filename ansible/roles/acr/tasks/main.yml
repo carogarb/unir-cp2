@@ -1,0 +1,25 @@
+---
+- name: Login into ACR
+  command: >
+    podman login {{ acr_name }}.azurecr.io -u {{ acr_username }} --password {{ acr_password }}
+  become: yes
+
+- name: Pull image from Docker Hub
+  command: >
+    podman pull carogarb/nginx-hello-world:latest
+  become: yes
+
+- name: Tag image for ACR
+  command: >
+    podman tag carogarb/nginx-hello-world:latest {{ acr_name }}.azurecr.io/{{ image_hello_world_name }}:{{ image_hello_world_tag }}
+  become: yes
+
+- name: Push image to ACR
+  command: >
+    podman push {{ acr_name }}.azurecr.io/{{ image_hello_world_name }}:{{ image_hello_world_tag }}
+  become: yes  
+
+- name: Run Podman container
+  command: >
+    podman run -d -p 80:80 --name ngnix-container-cgb {{ acr_name }}.azurecr.io/{{ image_hello_world_name }}:{{ image_hello_world_tag }}
+  become: yes  

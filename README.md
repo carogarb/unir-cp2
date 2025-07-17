@@ -36,9 +36,9 @@ This folder contains a first attempt of a [Terraform](https://www.terraform.io/)
   terraform apply
   ```
 
-* Obtain the exposed values:
+* Obtain the following values:
 
-  To get the public IP address of the web server execute:
+  The public IP address of the web server execute:
 
   ```bash
    terraform output -raw vm_ip
@@ -46,17 +46,13 @@ This folder contains a first attempt of a [Terraform](https://www.terraform.io/)
 
   Use this IP to configure the host in ansible hosts.yml file.
 
-  We also need the ACR username and password to connect to the ACR successfully:
+  We also need the ACR username and password as environment variables to connect from ANnsible successfully:
 
   ```bash
    terraform output -raw acr_username
+   export ACR_USERNAME=
    terraform output -raw acr_password
-  ```
-
-* Set environment variables neeeded for Ansible:
-
-  ```bash
-    export ACR_PWD=....
+   export ACT_PWD=
   ```
 
 
