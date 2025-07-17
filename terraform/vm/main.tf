@@ -71,7 +71,7 @@ resource "azurerm_network_security_rule" "allow_https" {
   access                      = "Allow"
   protocol                    = "Tcp"
   source_port_range           = "*"
-  destination_port_range      = ["80", "8080"]
+  destination_port_ranges     = ["80", "8080"]
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
   resource_group_name         = var.azurerm_resource_group_name
