@@ -1,0 +1,5 @@
+---
+- name: Login into ACR
+  command: >
+    podman login {{ terraform_output_var.acr_name }}.azurecr.io -u {{ terraform_output_var.acr_username }} --password {{ terraform_output_var.acr_password }}
+  become: yes

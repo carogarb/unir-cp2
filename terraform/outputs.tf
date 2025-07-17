@@ -3,9 +3,9 @@ output "vm_ip" {
   value = module.virtual_machine.vm_public_ip
 }
 
-# Output: ACR URL to login (terraform output -raw acr_url)
-output "acr_url" {
-  value = module.azure_container_registry.acr_login_server
+# Output: ACR Name (terraform output -raw acr_name)
+output "acr_name" {
+  value = module.azure_container_registry.acr_name
 }
 
 # Output: ACR Username (terraform output -raw acr_username)

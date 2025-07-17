@@ -40,6 +40,17 @@ module "azure_container_registry" {
   azurerm_container_registry_name = var.azurerm_container_registry_name
 }
 
+# Generate hosts.yml file dinamically for Ansible
+resource "template_file" "ansible_inventory" {
+  filename = "../ansible/hosts.yml"
+  content  = templatefile("../ansible/hosts.tmpl", {
+    ansible_host           = module.virtual_machine.vm_public_ip
+    ansible_user           = "cgb"
+    ansible_ssh_pass       = "Password1234!"
+    ansible_ssh_private_key_file = "~/.ssh/id_ed25519"
+  })
+}
+
 /* 
 # Only for testing purpose!!
 # Configurate to run automated tasks in the VM start-up

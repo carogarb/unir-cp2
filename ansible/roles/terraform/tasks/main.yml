@@ -1,0 +1,39 @@
+---
+- name: Execute terraform init
+  command: terraform init
+  args:
+    chdir: "{{ terraform_dir }}"
+  become: yes
+  tags: terraform_init
+
+- name: Execute terraform plan
+  command: terraform plan
+  args:
+    chdir: "{{ terraform_dir }}"
+  become: yes
+  tags: terraform_plan
+
+- name: Execute terraform apply
+  command: terraform apply -auto-approve
+  args:
+    chdir:  "{{ terraform_dir }}"
+  become: yes
+  tags: terraform_apply
+
+- name: Execute terraform output to store variables needed for Ansible
+  command: terraform output -json > "{{ terraform_output_file }}"
+  args:
+    chdir:  "{{ terraform_dir }}"
+  become: yes
+  tags: terraform_output
+
+- name: Load terraform output
+  include_vars: 
+    dir: "{{ terraform_dir }}"
+    file: "{{ terraform_output_file }}"
+    name: "{{ terraform_output_var }}"  
+
+# Only for testing purpose
+- name: Print a variable from terraform output
+  debug:
+    msg: "VM Public IP is {{ terraform_output_var.vm_ip }}"     

@@ -1,0 +1,3 @@
+---
+# ACR Name
+acr_name: "{{ lookup('env', 'ACR_NAME') }}"

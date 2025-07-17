@@ -1,0 +1,5 @@
+---
+- name: Run Podman container
+  command: >
+    podman run -d -p 80:80 --name ngnix-container-cgb {{ terraform_output_var.acr_name }}.azurecr.io/nginx-cgb:latest
+  become: yes
