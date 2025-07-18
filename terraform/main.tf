@@ -40,6 +40,16 @@ module "azure_container_registry" {
   azurerm_container_registry_name = var.azurerm_container_registry_name
 }
 
+# Use aks module to create the Azure Kubernetes Cluster
+module "azure_container_registry" {
+  source         = "./aks"
+  azurerm_resource_group_name     = azurerm_resource_group.rg.name
+  azurerm_resource_group_location = azurerm_resource_group.rg.location
+  azurerm_resource_group_tags     = var.azurerm_resource_group_tags
+  azurerm_kubernetes_cluster_name = var.azurerm_kubernetes_cluster_name
+  azurerm_resource_group_id       = azurerm_resource_group.rg.id
+}
+
 /* 
 # Only for testing purpose!!
 # Configurate to run automated tasks in the VM start-up

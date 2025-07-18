@@ -24,3 +24,10 @@ variable "azurerm_container_registry_name" {
   default     = "cgbuniracr"
 }
 
+variable "azurerm_kubernetes_cluster_name" {
+  description = "Azure Kubernetes Cluster name"
+  type        = string
+  default     = "cgbuniraks"
+
+}
+
