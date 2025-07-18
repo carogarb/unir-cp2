@@ -3,6 +3,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   location            = var.azurerm_resource_group_location
   resource_group_name = var.azurerm_resource_group_name
   dns_prefix          = "dns-prefix-k8s"
+  sku_tier            = "Free"
 # kubernetes_version  = "1.26.3"
 
   default_node_pool {
